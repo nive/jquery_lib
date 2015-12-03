@@ -1,17 +1,19 @@
+
+(function () {
 'use strict';
+
 var gulp = require('gulp'),
     plugins = require('gulp-load-plugins')({
         replaceString: /\bgulp[\-.]/
     }),
     pkg = require('./package.json'),
-    banner = ['/**',
-        ' * (c) 2013-<%= now.getFullYear() %> Nive GmbH - www.nive.co',
-        ' * ',
-        ' * <%= pkg.name %> v<%= pkg.version %>',
-        ' * <%= pkg.homepage %>',
-        ' * ',
-        ' * License: <%= pkg.license %>',
-        ' */',
+    banner = ['// (c) 2013-<%= now.getFullYear() %> Nive GmbH - nive.io',
+        '// ',
+        '// <%= pkg.name %> v<%= pkg.version %>',
+        '// ',
+        '// License: Released under MIT-License. See http://jquery.org/license',
+        '// Docs: http://www.nive.co/docs/webapi',
+        '//',
         ''].join('\n');
 
 // -------------------------
@@ -38,12 +40,12 @@ gulp.task('lint', function() {
 });
 
 gulp.task('scripts', function() {
-    gulp.src(['./src/jq-nive.js',
-              './src/resource/endpoint.js',
-              './src/services/jq-user.js',
-              './src/services/jq-datastore.js',
-              './src/services/jq-filehost.js'])
-        .pipe(plugins.concat('jq-nive-' + pkg.version + '.js'))
+    gulp.src(['./src/nive.js',
+              './src/endpoint.js',
+              './src/useraccount.js',
+              './src/kvstore.js',
+              './src/filestore.js'])
+        .pipe(plugins.concat('nive-jq-' + pkg.version + '.js'))
         .pipe(plugins.header(banner, {
             pkg: pkg,
             now: new Date()
@@ -57,9 +59,9 @@ gulp.task('scripts', function() {
         }))
         .pipe(gulp.dest('./dist'));
 
-    gulp.src(['./src/jq-nive.js',
-              './src/resource/endpoint.js'])
-        .pipe(plugins.concat('endpoint-' + pkg.version + '.js'))
+    gulp.src(['./src/nive.js',
+              './src/endpoint.js'])
+        .pipe(plugins.concat('nive-endpoint-' + pkg.version + '.js'))
         .pipe(plugins.header(banner, {
             pkg: pkg,
             now: new Date()
@@ -89,3 +91,5 @@ gulp.task('watch', ['lint', 'scripts'], function () {
 gulp.task('default', ['clean'], function() {
     gulp.start('watch');
 });
+
+}());

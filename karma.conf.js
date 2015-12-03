@@ -6,9 +6,9 @@ module.exports = function(config) {
         basePath: '',
         frameworks: ['jasmine'],
         files: [
-            'vendor/jquery/jquery.js',
-            'dist/jq-nive-' + pkg.version + '.js',
-            'test/**/*.spec.js'
+            'vendor/jquery/dist/jquery.js',
+            'dist/nive-jq-' + pkg.version + '.js',
+            'test/test_*.js'
         ],
         reporters: ['dots'],
         autoWatch: false,
@@ -16,4 +16,4 @@ module.exports = function(config) {
         logLevel: config.LOG_INFO,
         browsers: ['PhantomJS']
     });
-}
+};

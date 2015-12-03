@@ -1,9 +1,9 @@
 {
-  "name": "jq-nive",
+  "name": "nive-jq",
   "private": true,
-  "version": "0.7.1",
-  "description": "jQuery wapper for Nive Web API based services",
-  "homepage": "http://www.nive.co",
+  "version": "0.8.3",
+  "description": "jQuery wapper for nive.io cloud framework",
+  "homepage": "http://nive.io",
   "license": "MIT",
   "author": "Arndt Droullier, Nive GmbH",
   "devDependencies": {
@@ -14,7 +14,7 @@
     "gulp-eslint": "^0.1.8",
     "gulp-git": "^0.5.3",
     "gulp-header": "^1.1.1",
-    "gulp-load-plugins": "^0.7.0",
+    "gulp-load-plugins": "^1.1.0",
     "gulp-rename": "^1.2.0",
     "gulp-uglify": "^1.0.1",
     "karma": "^0.12.24",

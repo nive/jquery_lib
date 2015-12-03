@@ -1,6 +1,6 @@
 {
   "name": "jq-nive",
-  "version": "0.7.0",
+  "version": "0.8.3",
   "description": "jQuery wapper for Nive Web API based services",
   "keywords": [
     "jquery",
@@ -11,8 +11,9 @@
     "Arndt Droullier, Nive GmbH"
   ],
   "license": "MIT",
-  "homepage": "http://www.nive.co",
+  "homepage": "http://nive.io",
   "dependencies": {
-    "jquery": ">=1.7.2"
+    "jquery": "~2.1.4",
+    "jasmine-jquery": "~2.1.1"
   }
 }
