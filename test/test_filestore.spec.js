@@ -423,7 +423,25 @@ describe('jqFileStore', function() {
             return defer.promise();
         });
 
-        fileStore.setPermissions({name: 'file1.txt', permission: 'newItem', group: 'sys:owner'}).done(function(response) {
+        fileStore.setPermissions({name: 'file1.txt', permissions: {permission: 'newItem', group: 'sys:owner'}}).done(function(response) {
+            result = response;
+        });
+
+        expect(result).not.toBeNull();
+        expect(result.result).toBeTruthy();
+    });
+
+    it('should set multiple permissions', function() {
+        var result = null;
+
+        spyOn($, 'ajax').and.callFake(function (resource, params) {
+            var defer = $.Deferred();
+            defer.resolve({result: true});
+            return defer.promise();
+        });
+
+        fileStore.setPermissions({name: 'file1.txt', permissions: [{permission: 'newItem', group: 'sys:owner'},
+                                                                   {permission: 'getItem', group: 'sys:owner'}]}).done(function(response) {
             result = response;
         });
 
@@ -440,7 +458,7 @@ describe('jqFileStore', function() {
             return defer.promise();
         });
 
-        fileStore.setPermissions({name: 'file1.txt', permission: 'newItem', group: 'sys:owner', action: 'revoke'}).done(function(response) {
+        fileStore.setPermissions({name: 'file1.txt', permissions: {permission: 'newItem', group: 'sys:owner', action: 'revoke'}}).done(function(response) {
             result = response;
         });
 
@@ -457,7 +475,7 @@ describe('jqFileStore', function() {
             return defer.promise();
         });
 
-        fileStore.setPermissions({name: 'file1.txt', permission: 'whatever', group: 'sys:owner'}).done(function(response) {
+        fileStore.setPermissions({name: 'file1.txt', permissions: {permission: 'whatever', group: 'sys:owner'}}).done(function(response) {
             result = response;
         });
 
