@@ -1,4 +1,4 @@
-// (c) 2013-2015 Nive GmbH - nive.io
+// (c) 2013-2016 Nive GmbH - nive.io
 // 
 // nive-jq v0.8.3
 // 
@@ -21,10 +21,10 @@ nive.endpoint = nive.endpoint || {};
 'use strict';
 
 
-nive.endpoint.makeUrl = function (options, path) {
+nive.endpoint.makeUrl = function (options, extendedPath) {
     /*
      options: method, service, domain, path, secure, version
-     path: additional relative path to be used in services with tree like structures
+     extendedPath: additional relative path to be used in services with tree like structures
     * */
     options = options||{};
     var defaultDomain = '.nive.io';
@@ -48,6 +48,7 @@ nive.endpoint.makeUrl = function (options, path) {
     var method = options.method;
 
     // construct path
+    var path=extendedPath;
     if(path||options.path) {
         if(!path) {
             path = options.path;
