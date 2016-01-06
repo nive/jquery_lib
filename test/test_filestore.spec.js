@@ -535,4 +535,21 @@ describe('jqFileStore', function() {
         expect(result.result).toBeFalsy();
         expect(result.messages).toBeDefined();
     });
+
+    it('should call ping', function() {
+        var result = null;
+
+        spyOn($, 'ajax').and.callFake(function (resource, params) {
+            var defer = $.Deferred();
+            defer.resolve({result: 1});
+            return defer.promise();
+        });
+
+        fileStore.ping().done(function(response) {
+            result = response;
+        });
+
+        expect(result).not.toBeNull();
+        expect(result.result).toBeTruthy();
+    });
 });

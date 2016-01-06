@@ -97,6 +97,12 @@ nive.FileStore = nive.FileStore || {};
             // values: {name, owner}
             return this._send('@setOwner', values, ajaxSettings);
         };
+        this.ping = function (values, ajaxSettings) {
+            // values:
+            values = values||{};
+            values.name = '/';
+            return this._send('@ping', values, ajaxSettings);
+        };
 
         this._send = function (method, values, ajaxSettings) {
             if(typeof jQuery=='undefined') {
