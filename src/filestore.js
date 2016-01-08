@@ -34,73 +34,73 @@ nive.FileStore = nive.FileStore || {};
         };
 
         this.getItem = function (values, ajaxSettings) {
-            // values: {name}
+            // values: {path}
             if(typeof values == 'string' || values instanceof String) {
-                values = { name: values };
+                values = { path: values };
             }
             return this._send('@getItem', values, ajaxSettings);
         };
         this.newItem = function (values, ajaxSettings) {
-            // values: {name, contents, type, mime, header}
+            // values: {name, path, contents, type, mime, header}
             return this._send('@newItem', values, ajaxSettings);
         };
         this.setItem = function (values, ajaxSettings) {
-            // values: {name, contents, mime, header}
+            // values: {path, contents, mime, header}
             return this._send('@setItem', values, ajaxSettings);
         };
         this.removeItem = function (values, ajaxSettings) {
-            // values: {name, recursive}
+            // values: {path, recursive}
             return this._send('@removeItem', values, ajaxSettings);
         };
         this.read = function (values, ajaxSettings) {
-            // values: {name}
+            // values: {path}
             if(typeof values == 'string' || values instanceof String) {
-                values = { name: values };
+                values = { path: values };
             }
             return this._send('@read', values, ajaxSettings);
         };
         this.write = function (values, ajaxSettings) {
-            // values: {name, contents}
+            // values: {path, contents}
             return this._send('@write', values, ajaxSettings);
         };
         this.move = function (values, ajaxSettings) {
-            // values: {name, newpath}
+            // values: {path, newpath}
             return this._send('@move', values, ajaxSettings);
         };
         this.list = function (values, ajaxSettings) {
-            // values: {name, type, sort, order, size, start}
+            // values: {path, type, sort, order, size, start}
             return this._send('@list', values, ajaxSettings);
         };
         this.allowed = function (values, ajaxSettings) {
-            // values: {name, permission}
+            // values: {path, permission}
             return this._send('@allowed', values, ajaxSettings);
         };
         this.getPermissions = function (values, ajaxSettings) {
-            // values: {name}
+            // values: {path}
             if(typeof values == 'string' || values instanceof String) {
-                values = { name: values };
+                values = { path: values };
             }
             return this._send('@getPermissions', values, ajaxSettings);
         };
         this.setPermissions = function (values, ajaxSettings) {
-            // values: {name, permissions}
+            // values: {path, permissions}
             return this._send('@setPermissions', values, ajaxSettings);
         };
         this.getOwner = function (values, ajaxSettings) {
-            // values: {name}
+            // values: {path}
             if(typeof values == 'string' || values instanceof String) {
-                values = { name: values };
+                values = { path: values };
             }
             return this._send('@getOwner', values, ajaxSettings);
         };
         this.setOwner = function (values, ajaxSettings) {
-            // values: {name, owner}
+            // values: {path, owner}
             return this._send('@setOwner', values, ajaxSettings);
         };
         this.ping = function (values, ajaxSettings) {
             // values:
             values = values||{};
-            values.name = '/';
+            values.path = '/';
             return this._send('@ping', values, ajaxSettings);
         };
 
@@ -112,7 +112,7 @@ nive.FileStore = nive.FileStore || {};
             this.__options.method = method;
             this.__options.version = '';
             var extendedPath = null;
-            if(values&&values.name) { extendedPath = values.name; }
+            if(values&&values.path) { extendedPath = values.path; }
             var url = nive.endpoint.makeUrl(this.__options, extendedPath);
             ajaxSettings = ajaxSettings||{};
             ajaxSettings.data = JSON.stringify(values);

@@ -57,7 +57,7 @@ describe('jqFileStore', function() {
         });
 
         fileStore.newItem({
-              name: 'file2.txt', contents: 'some text', type: 'f', mime: 'text/plain', header: 'source=local'
+              path: 'file2.txt', contents: 'some text', type: 'f', mime: 'text/plain', header: 'source=local'
         }).done(function(response) {
             result = response;
         });
@@ -76,7 +76,7 @@ describe('jqFileStore', function() {
         });
 
         fileStore.newItem({
-              name: 'file2.txt', contents: 'some text', type: 'f', mime: 'text/plain', header: 'source=local'
+              path: 'file2.txt', contents: 'some text', type: 'f', mime: 'text/plain', header: 'source=local'
           }).done(function(response) {
             result = response;
         });
@@ -94,7 +94,7 @@ describe('jqFileStore', function() {
             return defer.promise();
         });
 
-        fileStore.getItem({name: mocks[0].name}).done(function(response) {
+        fileStore.getItem({path: mocks[0].name}).done(function(response) {
             result = response;
         });
 
@@ -117,7 +117,7 @@ describe('jqFileStore', function() {
             return defer.promise();
         });
 
-        fileStore.getItem(mocks[0].name).done(function(response) {
+        fileStore.getItem(mocks[0].path).done(function(response) {
             result = response;
         });
 
@@ -141,7 +141,7 @@ describe('jqFileStore', function() {
         });
 
         fileStore.setItem({
-              name: 'file2.txt', contents: 'some text', mime: 'text/plain', header: 'source=local'
+              path: 'file2.txt', contents: 'some text', mime: 'text/plain', header: 'source=local'
           }).done(function(response) {
             result = response;
         });
@@ -160,7 +160,7 @@ describe('jqFileStore', function() {
         });
 
         fileStore.setItem({
-              name: 'file2.txt', contents: 'some text', mime: 'text/plain', header: 'source=local'
+              path: 'file2.txt', contents: 'some text', mime: 'text/plain', header: 'source=local'
           }).done(function(response) {
             result = response;
         });
@@ -178,7 +178,7 @@ describe('jqFileStore', function() {
             return defer.promise();
         });
 
-        fileStore.removeItem({name: 'file1.txt'}).done(function(response) {
+        fileStore.removeItem({path: 'file1.txt'}).done(function(response) {
             result = response;
         });
 
@@ -195,7 +195,7 @@ describe('jqFileStore', function() {
             return defer.promise();
         });
 
-        fileStore.removeItem({name: 'folder1', recursive: true}).done(function(response) {
+        fileStore.removeItem({path: 'folder1', recursive: true}).done(function(response) {
             result = response;
         });
 
@@ -212,7 +212,7 @@ describe('jqFileStore', function() {
             return defer.promise();
         });
 
-        fileStore.removeItem({name: 'folder1', recursive: false}).done(function(response) {
+        fileStore.removeItem({path: 'folder1', recursive: false}).done(function(response) {
             result = response;
         });
 
@@ -230,7 +230,7 @@ describe('jqFileStore', function() {
             return defer.promise();
         });
 
-        fileStore.read({name: mocks[0].name}).done(function(response) {
+        fileStore.read({path: mocks[0].name}).done(function(response) {
             result = response;
         });
 
@@ -242,7 +242,7 @@ describe('jqFileStore', function() {
         var result = null;
 
         spyOn($, 'ajax').and.callFake(function (resource, params) {
-            expect($.parseJSON(params.data).name).toEqual(mocks[0].name);
+            expect($.parseJSON(params.data).path).toEqual(mocks[0].name);
             var defer = $.Deferred();
             defer.resolve(mocks[0].contents);
             return defer.promise();
@@ -265,7 +265,7 @@ describe('jqFileStore', function() {
             return defer.promise();
         });
 
-        fileStore.write({name: mocks[0].name, contents: 'Updated.'}).done(function(response) {
+        fileStore.write({path: mocks[0].name, contents: 'Updated.'}).done(function(response) {
             result = response;
         });
 
@@ -282,7 +282,7 @@ describe('jqFileStore', function() {
             return defer.promise();
         });
 
-        fileStore.write({name: mocks[0].name, contents: 'Updated.'}).done(function(response) {
+        fileStore.write({path: mocks[0].name, contents: 'Updated.'}).done(function(response) {
             result = response;
         });
 
@@ -300,7 +300,7 @@ describe('jqFileStore', function() {
             return defer.promise();
         });
 
-        fileStore.move({name: mocks[0].name, newpath: 'newfilename.txt'}).done(function(response) {
+        fileStore.move({path: mocks[0].name, newpath: 'newfilename.txt'}).done(function(response) {
             result = response;
         });
 
@@ -317,7 +317,7 @@ describe('jqFileStore', function() {
             return defer.promise();
         });
 
-        fileStore.move({name: mocks[0].name, newpath: '/no_folder/'}).done(function(response) {
+        fileStore.move({path: mocks[0].name, newpath: '/no_folder/'}).done(function(response) {
             result = response;
         });
 
@@ -371,7 +371,7 @@ describe('jqFileStore', function() {
             return defer.promise();
         });
 
-        fileStore.allowed({name: 'file1.txt', permission: 'removeItem'}).done(function(response) {
+        fileStore.allowed({path: 'file1.txt', permission: 'removeItem'}).done(function(response) {
             result = response;
         });
 
@@ -388,7 +388,7 @@ describe('jqFileStore', function() {
             return defer.promise();
         });
 
-        fileStore.allowed({name: 'file1.txt', permission: ['removeItem', 'write']}).done(function(response) {
+        fileStore.allowed({path: 'file1.txt', permission: ['removeItem', 'write']}).done(function(response) {
             result = response;
         });
 
@@ -406,7 +406,7 @@ describe('jqFileStore', function() {
             return defer.promise();
         });
 
-        fileStore.getPermissions({name: 'file1.txt'}).done(function(response) {
+        fileStore.getPermissions({path: 'file1.txt'}).done(function(response) {
             result = response;
         });
 
@@ -423,7 +423,7 @@ describe('jqFileStore', function() {
             return defer.promise();
         });
 
-        fileStore.setPermissions({name: 'file1.txt', permissions: {permission: 'newItem', group: 'sys:owner'}}).done(function(response) {
+        fileStore.setPermissions({path: 'file1.txt', permissions: {permission: 'newItem', group: 'sys:owner'}}).done(function(response) {
             result = response;
         });
 
@@ -440,7 +440,7 @@ describe('jqFileStore', function() {
             return defer.promise();
         });
 
-        fileStore.setPermissions({name: 'file1.txt', permissions: [{permission: 'newItem', group: 'sys:owner'},
+        fileStore.setPermissions({path: 'file1.txt', permissions: [{permission: 'newItem', group: 'sys:owner'},
                                                                    {permission: 'getItem', group: 'sys:owner'}]}).done(function(response) {
             result = response;
         });
@@ -458,7 +458,7 @@ describe('jqFileStore', function() {
             return defer.promise();
         });
 
-        fileStore.setPermissions({name: 'file1.txt', permissions: {permission: 'newItem', group: 'sys:owner', action: 'revoke'}}).done(function(response) {
+        fileStore.setPermissions({path: 'file1.txt', permissions: {permission: 'newItem', group: 'sys:owner', action: 'revoke'}}).done(function(response) {
             result = response;
         });
 
@@ -475,7 +475,7 @@ describe('jqFileStore', function() {
             return defer.promise();
         });
 
-        fileStore.setPermissions({name: 'file1.txt', permissions: {permission: 'whatever', group: 'sys:owner'}}).done(function(response) {
+        fileStore.setPermissions({path: 'file1.txt', permissions: {permission: 'whatever', group: 'sys:owner'}}).done(function(response) {
             result = response;
         });
 
@@ -493,7 +493,7 @@ describe('jqFileStore', function() {
             return defer.promise();
         });
 
-        fileStore.getOwner({name: 'file1.txt'}).done(function(response) {
+        fileStore.getOwner({path: 'file1.txt'}).done(function(response) {
             result = response;
         });
 
@@ -510,7 +510,7 @@ describe('jqFileStore', function() {
             return defer.promise();
         });
 
-        fileStore.setOwner({name: 'file1.txt', owner: 'Test 1'}).done(function(response) {
+        fileStore.setOwner({path: 'file1.txt', owner: 'Test 1'}).done(function(response) {
             result = response;
         });
 
@@ -527,7 +527,7 @@ describe('jqFileStore', function() {
             return defer.promise();
         });
 
-        fileStore.setOwner({name: 'file1.txt', owner: 'whatever'}).done(function(response) {
+        fileStore.setOwner({path: 'file1.txt', owner: 'whatever'}).done(function(response) {
             result = response;
         });
 
