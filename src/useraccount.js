@@ -123,11 +123,11 @@ nive.User = nive.User || {};
             return this._send('signupUid', values, ajaxSettings);
         };
 
-        this.signupConfirm = function (values, ajaxSettings) {
+        this.activate = function (values, ajaxSettings) {
             if(typeof values == 'string' || values instanceof String) {
                 values = {token: values};
             }
-            return this._send('signupConfirm', values, ajaxSettings);
+            return this._send('activate', values, ajaxSettings);
         };
 
         this.review = function (values, ajaxSettings) {

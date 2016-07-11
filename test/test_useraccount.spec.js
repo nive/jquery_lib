@@ -695,7 +695,7 @@ describe('jqUser', function() {
             return defer.promise();
         });
 
-        user.signupConfirm({token: '1234567890'}).then(function(response) {
+        user.activate({token: '1234567890'}).then(function(response) {
             result = response;
         });
 
@@ -711,7 +711,7 @@ describe('jqUser', function() {
             return defer.promise();
         });
 
-        user.signupConfirm({token: ''}).then(function(response) {
+        user.activate({token: ''}).then(function(response) {
             result = response;
         });
 
@@ -728,7 +728,7 @@ describe('jqUser', function() {
             return defer.promise();
         });
 
-        user.signupConfirm({identity: 'Test', action: 'accept'}).then(function(response) {
+        user.activate({identity: 'Test', action: 'accept'}).then(function(response) {
             result = response;
         });
 
@@ -744,7 +744,7 @@ describe('jqUser', function() {
             return defer.promise();
         });
 
-        user.signupConfirm({identity: '', action: 'accept'}).then(function(response) {
+        user.activate({identity: '', action: 'accept'}).then(function(response) {
             result = response;
         });
 
