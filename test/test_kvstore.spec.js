@@ -383,7 +383,7 @@ describe('jqKvStore', function() {
 
         spyOn($, 'ajax').and.callFake(function (resource, params) {
             var defer = $.Deferred();
-            defer.resolve({result: false, messages: ['unknown_permission']});
+            defer.resolve({result: false, message: 'unknown_permission'});
             return defer.promise();
         });
 
@@ -393,7 +393,7 @@ describe('jqKvStore', function() {
 
         expect(result).not.toBeNull();
         expect(result.result).toBeFalsy();
-        expect(result.messages).toBeDefined();
+        expect(result.message).toBeDefined();
     });
 
     it('should show owner', function() {
@@ -435,7 +435,7 @@ describe('jqKvStore', function() {
 
         spyOn($, 'ajax').and.callFake(function (resource, params) {
             var defer = $.Deferred();
-            defer.resolve({result: false, messages: ['unknown_user']});
+            defer.resolve({result: false, message: 'unknown_user'});
             return defer.promise();
         });
 
@@ -445,7 +445,7 @@ describe('jqKvStore', function() {
 
         expect(result).not.toBeNull();
         expect(result.result).toBeFalsy();
-        expect(result.messages).toBeDefined();
+        expect(result.message).toBeDefined();
     });
 
     it('should call ping', function() {

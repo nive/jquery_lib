@@ -71,7 +71,7 @@ describe('jqFileStore', function() {
 
         spyOn($, 'ajax').and.callFake(function (resource, params) {
             var defer = $.Deferred();
-            defer.resolve({result: 0, messages: ['storage_limit']});
+            defer.resolve({result: 0, message: 'storage_limit'});
             return defer.promise();
         });
 
@@ -82,7 +82,7 @@ describe('jqFileStore', function() {
         });
 
         expect(result.result).toBeFalsy();
-        expect(result.messages).toBeDefined();
+        expect(result.message).toBeDefined();
     });
 
     it('should get a item', function() {
@@ -155,7 +155,7 @@ describe('jqFileStore', function() {
 
         spyOn($, 'ajax').and.callFake(function (resource, params) {
             var defer = $.Deferred();
-            defer.resolve({result: 0, messages: ['storage_limit']});
+            defer.resolve({result: 0, message: ['storage_limit']});
             return defer.promise();
         });
 
@@ -166,7 +166,7 @@ describe('jqFileStore', function() {
         });
 
         expect(result.result).toBeFalsy();
-        expect(result.messages).toBeDefined();
+        expect(result.message).toBeDefined();
     });
 
     it('should remove a file', function() {
@@ -208,7 +208,7 @@ describe('jqFileStore', function() {
 
         spyOn($, 'ajax').and.callFake(function (resource, params) {
             var defer = $.Deferred();
-            defer.resolve({result: 0, messages: ['not_empty']});
+            defer.resolve({result: 0, message: 'not_empty'});
             return defer.promise();
         });
 
@@ -218,7 +218,7 @@ describe('jqFileStore', function() {
 
         expect(result).not.toBeNull();
         expect(result.result).toEqual(0);
-        expect(result.messages).toBeDefined();
+        expect(result.message).toBeDefined();
     });
 
     it('should read a file', function() {
@@ -278,7 +278,7 @@ describe('jqFileStore', function() {
 
         spyOn($, 'ajax').and.callFake(function (resource, params) {
             var defer = $.Deferred();
-            defer.resolve({result: false, messages: ['storage_limit']});
+            defer.resolve({result: false, message: 'storage_limit'});
             return defer.promise();
         });
 
@@ -288,7 +288,7 @@ describe('jqFileStore', function() {
 
         expect(result).not.toBeNull();
         expect(result.result).toBeFalsy();
-        expect(result.messages).toBeDefined();
+        expect(result.message).toBeDefined();
     });
 
     it('should move a item', function() {
@@ -313,7 +313,7 @@ describe('jqFileStore', function() {
 
         spyOn($, 'ajax').and.callFake(function (resource, params) {
             var defer = $.Deferred();
-            defer.resolve({result: false, messages: ['not_found']});
+            defer.resolve({result: false, message: 'not_found'});
             return defer.promise();
         });
 
@@ -323,7 +323,7 @@ describe('jqFileStore', function() {
 
         expect(result).not.toBeNull();
         expect(result.result).toBeFalsy();
-        expect(result.messages).toBeDefined();
+        expect(result.message).toBeDefined();
     });
 
     it('should list stored items', function() {
@@ -471,7 +471,7 @@ describe('jqFileStore', function() {
 
         spyOn($, 'ajax').and.callFake(function (resource, params) {
             var defer = $.Deferred();
-            defer.resolve({result: false, messages: ['unknown_permission']});
+            defer.resolve({result: false, message: 'unknown_permission'});
             return defer.promise();
         });
 
@@ -481,7 +481,7 @@ describe('jqFileStore', function() {
 
         expect(result).not.toBeNull();
         expect(result.result).toBeFalsy();
-        expect(result.messages).toBeDefined();
+        expect(result.message).toBeDefined();
     });
 
     it('should show owner', function() {
@@ -523,7 +523,7 @@ describe('jqFileStore', function() {
 
         spyOn($, 'ajax').and.callFake(function (resource, params) {
             var defer = $.Deferred();
-            defer.resolve({result: false, messages: ['unknown_user']});
+            defer.resolve({result: false, message: 'unknown_user'});
             return defer.promise();
         });
 
@@ -533,7 +533,7 @@ describe('jqFileStore', function() {
 
         expect(result).not.toBeNull();
         expect(result.result).toBeFalsy();
-        expect(result.messages).toBeDefined();
+        expect(result.message).toBeDefined();
     });
 
     it('should call ping', function() {
