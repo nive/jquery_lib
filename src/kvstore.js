@@ -64,9 +64,30 @@ nive.KvStore = nive.KvStore || {};
         this.list = function (values, ajaxSettings) {
             return this._send('list', values, ajaxSettings);
         };
-
         this.keys = function (values, ajaxSettings) {
             return this._send('keys', values, ajaxSettings);
+        };
+
+        this.allowed = function (values, ajaxSettings) {
+            return this._send('allowed', values, ajaxSettings);
+        };
+
+        this.getPermissions = function (values, ajaxSettings) {
+            return this._send('getPermissions', values, ajaxSettings);
+        };
+        this.setPermissions = function (values, ajaxSettings) {
+            return this._send('setPermissions', values, ajaxSettings);
+        };
+        this.getOwner= function (values, ajaxSettings) {
+            return this._send('getOwner', values, ajaxSettings);
+        };
+        this.setOwner= function (values, ajaxSettings) {
+            return this._send('setOwner', values, ajaxSettings);
+        };
+
+        this.ping = function (values, ajaxSettings) {
+            values = values||{};
+            return this._send('ping', values, ajaxSettings);
         };
 
         this._send = function (method, values, ajaxSettings) {

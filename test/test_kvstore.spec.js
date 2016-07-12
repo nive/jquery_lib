@@ -274,4 +274,194 @@ describe('jqKvStore', function() {
         expect(result.keys[0]).toEqual(RESOURCE_KEY);
     });
 
+    it('should show access allowed', function() {
+        var result = null;
+
+        spyOn($, 'ajax').and.callFake(function (resource, params) {
+            var defer = $.Deferred();
+            defer.resolve({removeItem: true});
+            return defer.promise();
+        });
+
+        kvStore.allowed({permission: 'removeItem'}).done(function(response) {
+            result = response;
+        });
+
+        expect(result).not.toBeNull();
+        expect(result['removeItem']).toBeTruthy();
+    });
+
+    it('should show multiple access allowed', function() {
+        var result = null;
+
+        spyOn($, 'ajax').and.callFake(function (resource, params) {
+            var defer = $.Deferred();
+            defer.resolve({removeItem: false, update: true});
+            return defer.promise();
+        });
+
+        kvStore.allowed({permission: ['removeItem', 'update']}).done(function(response) {
+            result = response;
+        });
+
+        expect(result).not.toBeNull();
+        expect(result['removeItem']).toBeFalsy();
+        expect(result['update']).toBeTruthy();
+    });
+
+    it('should show permissions', function() {
+        var result = null;
+
+        spyOn($, 'ajax').and.callFake(function (resource, params) {
+            var defer = $.Deferred();
+            defer.resolve([['newItem', ['sys:authenticated']], ['getItem', ['sys:owner','admins']]]);
+            return defer.promise();
+        });
+
+        kvStore.getPermissions({}).done(function(response) {
+            result = response;
+        });
+
+        expect(result).not.toBeNull();
+        expect(result.length).toBeTruthy();
+    });
+
+    it('should set permissions', function() {
+        var result = null;
+
+        spyOn($, 'ajax').and.callFake(function (resource, params) {
+            var defer = $.Deferred();
+            defer.resolve({result: true});
+            return defer.promise();
+        });
+
+        kvStore.setPermissions({permissions: {permission: 'newItem', group: 'sys:owner'}}).done(function(response) {
+            result = response;
+        });
+
+        expect(result).not.toBeNull();
+        expect(result.result).toBeTruthy();
+    });
+
+    it('should set multiple permissions', function() {
+        var result = null;
+
+        spyOn($, 'ajax').and.callFake(function (resource, params) {
+            var defer = $.Deferred();
+            defer.resolve({result: true});
+            return defer.promise();
+        });
+
+        kvStore.setPermissions({permissions: [{permission: 'newItem', group: 'sys:owner'},
+                                              {permission: 'getItem', group: 'sys:owner'}]}).done(function(response) {
+            result = response;
+        });
+
+        expect(result).not.toBeNull();
+        expect(result.result).toBeTruthy();
+    });
+
+    it('should set permissions revoke', function() {
+        var result = null;
+
+        spyOn($, 'ajax').and.callFake(function (resource, params) {
+            var defer = $.Deferred();
+            defer.resolve({result: true});
+            return defer.promise();
+        });
+
+        kvStore.setPermissions({permissions: {permission: 'newItem', group: 'sys:owner', action: 'revoke'}}).done(function(response) {
+            result = response;
+        });
+
+        expect(result).not.toBeNull();
+        expect(result.result).toBeTruthy();
+    });
+
+    it('should fail to set permissions', function() {
+        var result = null;
+
+        spyOn($, 'ajax').and.callFake(function (resource, params) {
+            var defer = $.Deferred();
+            defer.resolve({result: false, messages: ['unknown_permission']});
+            return defer.promise();
+        });
+
+        kvStore.setPermissions({permissions: {permission: 'whatever', group: 'sys:owner'}}).done(function(response) {
+            result = response;
+        });
+
+        expect(result).not.toBeNull();
+        expect(result.result).toBeFalsy();
+        expect(result.messages).toBeDefined();
+    });
+
+    it('should show owner', function() {
+        var result = null;
+
+        spyOn($, 'ajax').and.callFake(function (resource, params) {
+            var defer = $.Deferred();
+            defer.resolve({owner: 'Test'});
+            return defer.promise();
+        });
+
+        kvStore.getOwner({key: RESOURCE_KEY}).done(function(response) {
+            result = response;
+        });
+
+        expect(result).not.toBeNull();
+        expect(result.owner).toEqual('Test');
+    });
+
+    it('should set owner', function() {
+        var result = null;
+
+        spyOn($, 'ajax').and.callFake(function (resource, params) {
+            var defer = $.Deferred();
+            defer.resolve({result: true});
+            return defer.promise();
+        });
+
+        kvStore.setOwner({key: RESOURCE_KEY, owner: 'Test 1'}).done(function(response) {
+            result = response;
+        });
+
+        expect(result).not.toBeNull();
+        expect(result.result).toBeTruthy();
+    });
+
+    it('should fail to set owner', function() {
+        var result = null;
+
+        spyOn($, 'ajax').and.callFake(function (resource, params) {
+            var defer = $.Deferred();
+            defer.resolve({result: false, messages: ['unknown_user']});
+            return defer.promise();
+        });
+
+        kvStore.setOwner({key: RESOURCE_KEY, owner: 'whatever'}).done(function(response) {
+            result = response;
+        });
+
+        expect(result).not.toBeNull();
+        expect(result.result).toBeFalsy();
+        expect(result.messages).toBeDefined();
+    });
+
+    it('should call ping', function() {
+        var result = null;
+
+        spyOn($, 'ajax').and.callFake(function (resource, params) {
+            var defer = $.Deferred();
+            defer.resolve({result: 1});
+            return defer.promise();
+        });
+
+        kvStore.ping().done(function(response) {
+            result = response;
+        });
+
+        expect(result).not.toBeNull();
+        expect(result.result).toBeTruthy();
+    });    
 });

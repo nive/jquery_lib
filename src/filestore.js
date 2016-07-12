@@ -75,6 +75,7 @@ nive.FileStore = nive.FileStore || {};
             // values: {path, permission}
             return this._send('@allowed', values, ajaxSettings);
         };
+
         this.getPermissions = function (values, ajaxSettings) {
             // values: {path}
             if(typeof values == 'string' || values instanceof String) {
@@ -86,6 +87,7 @@ nive.FileStore = nive.FileStore || {};
             // values: {path, permissions}
             return this._send('@setPermissions', values, ajaxSettings);
         };
+
         this.getOwner = function (values, ajaxSettings) {
             // values: {path}
             if(typeof values == 'string' || values instanceof String) {
@@ -97,6 +99,7 @@ nive.FileStore = nive.FileStore || {};
             // values: {path, owner}
             return this._send('@setOwner', values, ajaxSettings);
         };
+
         this.ping = function (values, ajaxSettings) {
             // values:
             values = values||{};

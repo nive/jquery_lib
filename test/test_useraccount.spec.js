@@ -11,43 +11,12 @@ describe('jqUser', function() {
         var instance = new nive.User();
         expect(instance.options('service')).toEqual('users');
 
-        instance = new nive.User({'token': '123456'})
+        instance = new nive.User({'token': '123456'});
         expect(instance.options('token')).toEqual('123456');
     });
 
     it('should exist', function() {
         expect(user).toBeDefined();
-    });
-
-    it('should signIn with correct credentials', function() {
-        var identity = 'TestIdentity',
-            password = 'TEST',
-            result = null;
-
-        spyOn($, 'ajax').and.callFake(function (resource, params) {
-            var defer = $.Deferred();
-            params = $.parseJSON(params.data);
-
-            if(identity === params.identity && params.password === password) {
-                defer.resolve({result: true});
-            } else {
-                defer.resolve({result: false, message: 'Wrong credentials'});
-            }
-            return defer.promise();
-        });
-
-        // try sign up with wrong credentials
-        user.signin({identity: 'unknown', password: password}).then(function(response) {
-            result = response;
-        });
-
-        expect(result.result).not.toBeTruthy();
-
-        user.signin({identity: identity, password: password}).then(function(response) {
-            result = response;
-        });
-
-        expect(result.result).toBeTruthy();
     });
 
     it('get a security token', function() {
@@ -79,6 +48,37 @@ describe('jqUser', function() {
         });
 
         expect(result.token).not.toBeNull();
+    });
+
+    it('should signIn with correct credentials', function() {
+        var identity = 'TestIdentity',
+            password = 'TEST',
+            result = null;
+
+        spyOn($, 'ajax').and.callFake(function (resource, params) {
+            var defer = $.Deferred();
+            params = $.parseJSON(params.data);
+
+            if(identity === params.identity && params.password === password) {
+                defer.resolve({result: true});
+            } else {
+                defer.resolve({result: false, message: 'Wrong credentials'});
+            }
+            return defer.promise();
+        });
+
+        // try sign up with wrong credentials
+        user.signin({identity: 'unknown', password: password}).then(function(response) {
+            result = response;
+        });
+
+        expect(result.result).not.toBeTruthy();
+
+        user.signin({identity: identity, password: password}).then(function(response) {
+            result = response;
+        });
+
+        expect(result.result).toBeTruthy();
     });
 
     it('should signout', function() {
@@ -214,6 +214,209 @@ describe('jqUser', function() {
         expect(result.result).toBeTruthy();
     });
 
+    it('should signup direct', function() {
+        var result = null;
+
+        spyOn($, 'ajax').and.callFake(function (resource, params) {
+            var defer = $.Deferred();
+            defer.resolve({result: true});
+            return defer.promise();
+        });
+
+        user.signupDirect({name: 'Test', email: 'test@nive.io', password: 'mypassword', data: 'user data'}).then(function(response) {
+            result = response;
+        });
+
+        expect(result.result).toBeTruthy();
+    });
+
+    it('should fail to signup direct', function() {
+        var result = null;
+
+        spyOn($, 'ajax').and.callFake(function (resource, params) {
+            var defer = $.Deferred();
+            defer.resolve({result: false, invalid: [['name', 'empty']], message: []});
+            return defer.promise();
+        });
+
+        user.signupDirect({name: '', email: 'test@nive.io', password: 'mypassword', data: 'user data'}).then(function(response) {
+            result = response;
+        });
+
+        expect(result.result).toBeFalsy();
+        expect(result.invalid).toBeDefined();
+        expect(result.message).toBeDefined();
+    });
+
+    it('should signup optin', function() {
+        var result = null;
+
+        spyOn($, 'ajax').and.callFake(function (resource, params) {
+            var defer = $.Deferred();
+            defer.resolve({result: true});
+            return defer.promise();
+        });
+
+        user.signupOptin({name: 'Test', email: 'test@nive.io', password: 'mypassword', data: 'user data'}).then(function(response) {
+            result = response;
+        });
+
+        expect(result.result).toBeTruthy();
+    });
+
+    it('should fail to signup optin', function() {
+        var result = null;
+
+        spyOn($, 'ajax').and.callFake(function (resource, params) {
+            var defer = $.Deferred();
+            defer.resolve({result: false, invalid: [['name', 'empty']], message: []});
+            return defer.promise();
+        });
+
+        user.signupOptin({name: '', email: 'test@nive.io', password: 'mypassword', data: 'user data'}).then(function(response) {
+            result = response;
+        });
+
+        expect(result.result).toBeFalsy();
+        expect(result.invalid).toBeDefined();
+        expect(result.message).toBeDefined();
+    });
+
+    it('should signup review', function() {
+        var result = null;
+
+        spyOn($, 'ajax').and.callFake(function (resource, params) {
+            var defer = $.Deferred();
+            defer.resolve({result: true});
+            return defer.promise();
+        });
+
+        user.signupReview({name: 'Test', email: 'test@nive.io', password: 'mypassword', data: 'user data'}).then(function(response) {
+            result = response;
+        });
+
+        expect(result.result).toBeTruthy();
+    });
+
+    it('should fail to signup review', function() {
+        var result = null;
+
+        spyOn($, 'ajax').and.callFake(function (resource, params) {
+            var defer = $.Deferred();
+            defer.resolve({result: false, invalid: [['name', 'empty']], message: []});
+            return defer.promise();
+        });
+
+        user.signupReview({name: '', email: 'test@nive.io', password: 'mypassword', data: 'user data'}).then(function(response) {
+            result = response;
+        });
+
+        expect(result.result).toBeFalsy();
+        expect(result.invalid).toBeDefined();
+        expect(result.message).toBeDefined();
+    });
+
+    it('should signup send password', function() {
+        var result = null;
+
+        spyOn($, 'ajax').and.callFake(function (resource, params) {
+            var defer = $.Deferred();
+            defer.resolve({result: true});
+            return defer.promise();
+        });
+
+        user.signupSendpw({name: 'Test', email: 'test@nive.io', data: 'user data'}).then(function(response) {
+            result = response;
+        });
+
+        expect(result.result).toBeTruthy();
+    });
+
+    it('should fail to signup send password', function() {
+        var result = null;
+
+        spyOn($, 'ajax').and.callFake(function (resource, params) {
+            var defer = $.Deferred();
+            defer.resolve({result: false, invalid: [['name', 'empty']], message: []});
+            return defer.promise();
+        });
+
+        user.signupSendpw({name: '', email: 'test@nive.io', data: 'user data'}).then(function(response) {
+            result = response;
+        });
+
+        expect(result.result).toBeFalsy();
+        expect(result.invalid).toBeDefined();
+        expect(result.message).toBeDefined();
+    });
+
+    it('should signup uid', function() {
+        var result = null;
+
+        spyOn($, 'ajax').and.callFake(function (resource, params) {
+            var defer = $.Deferred();
+            defer.resolve({result: true});
+            return defer.promise();
+        });
+
+        user.signupUid({password: 'Test', email: 'test@nive.io', data: 'user data'}).then(function(response) {
+            result = response;
+        });
+
+        expect(result.result).toBeTruthy();
+    });
+
+    it('should fail to signup uid', function() {
+        var result = null;
+
+        spyOn($, 'ajax').and.callFake(function (resource, params) {
+            var defer = $.Deferred();
+            defer.resolve({result: false, invalid: [['password', 'empty']], message: []});
+            return defer.promise();
+        });
+
+        user.signupUid({password: '', email: 'test@nive.io', data: 'user data'}).then(function(response) {
+            result = response;
+        });
+
+        expect(result.result).toBeFalsy();
+        expect(result.invalid).toBeDefined();
+        expect(result.message).toBeDefined();
+    });
+
+    it('should activate profile', function() {
+        var result = null;
+
+        spyOn($, 'ajax').and.callFake(function (resource, params) {
+            var defer = $.Deferred();
+            defer.resolve({result: true});
+            return defer.promise();
+        });
+
+        user.activate({token: '1234567890'}).then(function(response) {
+            result = response;
+        });
+
+        expect(result.result).toBeTruthy();
+    });
+
+    it('should fail to activate profile', function() {
+        var result = null;
+
+        spyOn($, 'ajax').and.callFake(function (resource, params) {
+            var defer = $.Deferred();
+            defer.resolve({result: false, message: ['invalid_token']});
+            return defer.promise();
+        });
+
+        user.activate({token: ''}).then(function(response) {
+            result = response;
+        });
+
+        expect(result.result).toBeFalsy();
+        expect(result.message).toBeDefined();
+    });
+
     it('should update profile', function() {
         var result = null;
 
@@ -235,7 +438,7 @@ describe('jqUser', function() {
 
         spyOn($, 'ajax').and.callFake(function (resource, params) {
             var defer = $.Deferred();
-            defer.resolve({result: false, invalid: [["data", "too long"]], messages: []});
+            defer.resolve({result: false, invalid: [["data", "too long"]], message: ''});
             return defer.promise();
         });
 
@@ -245,7 +448,7 @@ describe('jqUser', function() {
 
         expect(result.result).toBeFalsy();
         expect(result.invalid).toBeDefined();
-        expect(result.messages).toBeDefined();
+        expect(result.message).toBeDefined();
     });
 
     it('should update password', function() {
@@ -271,7 +474,7 @@ describe('jqUser', function() {
 
         spyOn($, 'ajax').and.callFake(function (resource, params) {
             var defer = $.Deferred();
-            defer.resolve({result: false, invalid: [["newpassword", "too short"]], messages: []});
+            defer.resolve({result: false, invalid: [["newpassword", "too short"]], message: []});
             return defer.promise();
         });
 
@@ -281,7 +484,7 @@ describe('jqUser', function() {
 
         expect(result.result).toBeFalsy();
         expect(result.invalid).toBeDefined();
-        expect(result.messages).toBeDefined();
+        expect(result.message).toBeDefined();
     });
 
     it('should update email', function() {
@@ -305,7 +508,7 @@ describe('jqUser', function() {
 
         spyOn($, 'ajax').and.callFake(function (resource, params) {
             var defer = $.Deferred();
-            defer.resolve({result: false, invalid: [["email", "invalid"]], messages: []});
+            defer.resolve({result: false, invalid: [["email", "invalid"]], message: []});
             return defer.promise();
         });
 
@@ -315,7 +518,7 @@ describe('jqUser', function() {
 
         expect(result.result).toBeFalsy();
         expect(result.invalid).toBeDefined();
-        expect(result.messages).toBeDefined();
+        expect(result.message).toBeDefined();
     });
 
     it('should verify email', function() {
@@ -339,7 +542,7 @@ describe('jqUser', function() {
 
         spyOn($, 'ajax').and.callFake(function (resource, params) {
             var defer = $.Deferred();
-            defer.resolve({result: false, invalid: [["email", "invalid"]], messages: []});
+            defer.resolve({result: false, invalid: [["email", "invalid"]], message: []});
             return defer.promise();
         });
 
@@ -349,7 +552,7 @@ describe('jqUser', function() {
 
         expect(result.result).toBeFalsy();
         expect(result.invalid).toBeDefined();
-        expect(result.messages).toBeDefined();
+        expect(result.message).toBeDefined();
     });
 
     it('should activate verified email', function() {
@@ -373,7 +576,7 @@ describe('jqUser', function() {
 
         spyOn($, 'ajax').and.callFake(function (resource, params) {
             var defer = $.Deferred();
-            defer.resolve({result: false, messages: ['invlaid_token']});
+            defer.resolve({result: false, message: ['invlaid_token']});
             return defer.promise();
         });
 
@@ -382,7 +585,7 @@ describe('jqUser', function() {
         });
 
         expect(result.result).toBeFalsy();
-        expect(result.messages).toBeDefined();
+        expect(result.message).toBeDefined();
     });
 
     it('should reset password', function() {
@@ -406,7 +609,7 @@ describe('jqUser', function() {
 
         spyOn($, 'ajax').and.callFake(function (resource, params) {
             var defer = $.Deferred();
-            defer.resolve({result: false, messages: ['unknown_user']});
+            defer.resolve({result: false, message: ['unknown_user']});
             return defer.promise();
         });
 
@@ -415,7 +618,7 @@ describe('jqUser', function() {
         });
 
         expect(result.result).toBeFalsy();
-        expect(result.messages).toBeDefined();
+        expect(result.message).toBeDefined();
     });
 
     it('should reset password with token', function() {
@@ -439,7 +642,7 @@ describe('jqUser', function() {
 
         spyOn($, 'ajax').and.callFake(function (resource, params) {
             var defer = $.Deferred();
-            defer.resolve({result: false, invalid: [["newpassword", "too short"]], messages: []});
+            defer.resolve({result: false, invalid: [["newpassword", "too short"]], message: []});
             return defer.promise();
         });
 
@@ -448,7 +651,7 @@ describe('jqUser', function() {
         });
 
         expect(result.result).toBeFalsy();
-        expect(result.messages).toBeDefined();
+        expect(result.message).toBeDefined();
     });
 
     it('should send a message', function() {
@@ -472,7 +675,7 @@ describe('jqUser', function() {
 
         spyOn($, 'ajax').and.callFake(function (resource, params) {
             var defer = $.Deferred();
-            defer.resolve({result: false, messages: ['empty']});
+            defer.resolve({result: false, message: ['empty']});
             return defer.promise();
         });
 
@@ -481,7 +684,42 @@ describe('jqUser', function() {
         });
 
         expect(result.result).toBeFalsy();
-        expect(result.messages).toBeDefined();
+        expect(result.message).toBeDefined();
+    });
+
+    it('should show access allowed', function() {
+        var result = null;
+
+        spyOn($, 'ajax').and.callFake(function (resource, params) {
+            var defer = $.Deferred();
+            defer.resolve({delete: true});
+            return defer.promise();
+        });
+
+        user.allowed({permission: 'delete'}).done(function(response) {
+            result = response;
+        });
+
+        expect(result).not.toBeNull();
+        expect(result['delete']).toBeTruthy();
+    });
+
+    it('should show multiple access allowed', function() {
+        var result = null;
+
+        spyOn($, 'ajax').and.callFake(function (resource, params) {
+            var defer = $.Deferred();
+            defer.resolve({delete: false, update: true});
+            return defer.promise();
+        });
+
+        user.allowed({permission: ['delete', 'update']}).done(function(response) {
+            result = response;
+        });
+
+        expect(result).not.toBeNull();
+        expect(result['delete']).toBeFalsy();
+        expect(result['update']).toBeTruthy();
     });
 
     it('should disable the profile', function() {
@@ -516,209 +754,6 @@ describe('jqUser', function() {
         expect(result.result).toBeTruthy();
     });
 
-    it('should signup direct', function() {
-        var result = null;
-
-        spyOn($, 'ajax').and.callFake(function (resource, params) {
-            var defer = $.Deferred();
-            defer.resolve({result: true});
-            return defer.promise();
-        });
-
-        user.signupDirect({name: 'Test', email: 'test@nive.io', password: 'mypassword', data: 'user data'}).then(function(response) {
-            result = response;
-        });
-
-        expect(result.result).toBeTruthy();
-    });
-
-    it('should fail to signup direct', function() {
-        var result = null;
-
-        spyOn($, 'ajax').and.callFake(function (resource, params) {
-            var defer = $.Deferred();
-            defer.resolve({result: false, invalid: [['name', 'empty']], messages: []});
-            return defer.promise();
-        });
-
-        user.signupDirect({name: '', email: 'test@nive.io', password: 'mypassword', data: 'user data'}).then(function(response) {
-            result = response;
-        });
-
-        expect(result.result).toBeFalsy();
-        expect(result.invalid).toBeDefined();
-        expect(result.messages).toBeDefined();
-    });
-
-    it('should signup optin', function() {
-        var result = null;
-
-        spyOn($, 'ajax').and.callFake(function (resource, params) {
-            var defer = $.Deferred();
-            defer.resolve({result: true});
-            return defer.promise();
-        });
-
-        user.signupOptin({name: 'Test', email: 'test@nive.io', password: 'mypassword', data: 'user data'}).then(function(response) {
-            result = response;
-        });
-
-        expect(result.result).toBeTruthy();
-    });
-
-    it('should fail to signup optin', function() {
-        var result = null;
-
-        spyOn($, 'ajax').and.callFake(function (resource, params) {
-            var defer = $.Deferred();
-            defer.resolve({result: false, invalid: [['name', 'empty']], messages: []});
-            return defer.promise();
-        });
-
-        user.signupOptin({name: '', email: 'test@nive.io', password: 'mypassword', data: 'user data'}).then(function(response) {
-            result = response;
-        });
-
-        expect(result.result).toBeFalsy();
-        expect(result.invalid).toBeDefined();
-        expect(result.messages).toBeDefined();
-    });
-
-    it('should signup review', function() {
-        var result = null;
-
-        spyOn($, 'ajax').and.callFake(function (resource, params) {
-            var defer = $.Deferred();
-            defer.resolve({result: true});
-            return defer.promise();
-        });
-
-        user.signupReview({name: 'Test', email: 'test@nive.io', password: 'mypassword', data: 'user data'}).then(function(response) {
-            result = response;
-        });
-
-        expect(result.result).toBeTruthy();
-    });
-
-    it('should fail to signup review', function() {
-        var result = null;
-
-        spyOn($, 'ajax').and.callFake(function (resource, params) {
-            var defer = $.Deferred();
-            defer.resolve({result: false, invalid: [['name', 'empty']], messages: []});
-            return defer.promise();
-        });
-
-        user.signupReview({name: '', email: 'test@nive.io', password: 'mypassword', data: 'user data'}).then(function(response) {
-            result = response;
-        });
-
-        expect(result.result).toBeFalsy();
-        expect(result.invalid).toBeDefined();
-        expect(result.messages).toBeDefined();
-    });
-
-    it('should signup send password', function() {
-        var result = null;
-
-        spyOn($, 'ajax').and.callFake(function (resource, params) {
-            var defer = $.Deferred();
-            defer.resolve({result: true});
-            return defer.promise();
-        });
-
-        user.signupSendpw({name: 'Test', email: 'test@nive.io', data: 'user data'}).then(function(response) {
-            result = response;
-        });
-
-        expect(result.result).toBeTruthy();
-    });
-
-    it('should fail to signup send password', function() {
-        var result = null;
-
-        spyOn($, 'ajax').and.callFake(function (resource, params) {
-            var defer = $.Deferred();
-            defer.resolve({result: false, invalid: [['name', 'empty']], messages: []});
-            return defer.promise();
-        });
-
-        user.signupSendpw({name: '', email: 'test@nive.io', data: 'user data'}).then(function(response) {
-            result = response;
-        });
-
-        expect(result.result).toBeFalsy();
-        expect(result.invalid).toBeDefined();
-        expect(result.messages).toBeDefined();
-    });
-
-    it('should signup uid', function() {
-        var result = null;
-
-        spyOn($, 'ajax').and.callFake(function (resource, params) {
-            var defer = $.Deferred();
-            defer.resolve({result: true});
-            return defer.promise();
-        });
-
-        user.signupUid({password: 'Test', email: 'test@nive.io', data: 'user data'}).then(function(response) {
-            result = response;
-        });
-
-        expect(result.result).toBeTruthy();
-    });
-
-    it('should fail to signup uid', function() {
-        var result = null;
-
-        spyOn($, 'ajax').and.callFake(function (resource, params) {
-            var defer = $.Deferred();
-            defer.resolve({result: false, invalid: [['password', 'empty']], messages: []});
-            return defer.promise();
-        });
-
-        user.signupUid({password: '', email: 'test@nive.io', data: 'user data'}).then(function(response) {
-            result = response;
-        });
-
-        expect(result.result).toBeFalsy();
-        expect(result.invalid).toBeDefined();
-        expect(result.messages).toBeDefined();
-    });
-
-    it('should confirm signup', function() {
-        var result = null;
-
-        spyOn($, 'ajax').and.callFake(function (resource, params) {
-            var defer = $.Deferred();
-            defer.resolve({result: true});
-            return defer.promise();
-        });
-
-        user.activate({token: '1234567890'}).then(function(response) {
-            result = response;
-        });
-
-        expect(result.result).toBeTruthy();
-    });
-
-    it('should fail to confirm signup', function() {
-        var result = null;
-
-        spyOn($, 'ajax').and.callFake(function (resource, params) {
-            var defer = $.Deferred();
-            defer.resolve({result: false, messages: ['invalid_token']});
-            return defer.promise();
-        });
-
-        user.activate({token: ''}).then(function(response) {
-            result = response;
-        });
-
-        expect(result.result).toBeFalsy();
-        expect(result.messages).toBeDefined();
-    });
-
     it('should review profile', function() {
         var result = null;
 
@@ -728,7 +763,7 @@ describe('jqUser', function() {
             return defer.promise();
         });
 
-        user.activate({identity: 'Test', action: 'accept'}).then(function(response) {
+        user.review({identity: 'Test', action: 'accept'}).then(function(response) {
             result = response;
         });
 
@@ -740,16 +775,16 @@ describe('jqUser', function() {
 
         spyOn($, 'ajax').and.callFake(function (resource, params) {
             var defer = $.Deferred();
-            defer.resolve({result: false, messages: ['unknown_user']});
+            defer.resolve({result: false, message: 'unknown_user'});
             return defer.promise();
         });
 
-        user.activate({identity: '', action: 'accept'}).then(function(response) {
+        user.review({identity: '', action: 'accept'}).then(function(response) {
             result = response;
         });
 
         expect(result.result).toBeFalsy();
-        expect(result.messages).toBeDefined();
+        expect(result.message).toBeDefined();
     });
 
     it('should get the user', function() {
@@ -801,7 +836,7 @@ describe('jqUser', function() {
 
         spyOn($, 'ajax').and.callFake(function (resource, params) {
             var defer = $.Deferred();
-            defer.resolve({result: false, invalid: [['identity', 'empty']], messages: []});
+            defer.resolve({result: false, invalid: [['identity', 'empty']], message: []});
             return defer.promise();
         });
 
@@ -812,7 +847,7 @@ describe('jqUser', function() {
 
         expect(result.result).toBeFalsy();
         expect(result.invalid).toBeDefined();
-        expect(result.messages).toBeDefined();
+        expect(result.message).toBeDefined();
     });
 
     it('should remove the user', function() {
@@ -836,7 +871,7 @@ describe('jqUser', function() {
 
         spyOn($, 'ajax').and.callFake(function (resource, params) {
             var defer = $.Deferred();
-            defer.resolve({result: false, invalid: [['identity', 'empty']], messages: []});
+            defer.resolve({result: false, invalid: [['identity', 'empty']], message: []});
             return defer.promise();
         });
 
@@ -846,7 +881,7 @@ describe('jqUser', function() {
 
         expect(result.result).toBeFalsy();
         expect(result.invalid).toBeDefined();
-        expect(result.messages).toBeDefined();
+        expect(result.message).toBeDefined();
     });
 
     it('should list users', function() {
@@ -893,4 +928,130 @@ describe('jqUser', function() {
         expect(result.size).toEqual(20);
     });
 
+    it('should list user identities', function() {
+        var result = null;
+
+        spyOn($, 'ajax').and.callFake(function (resource, params) {
+            var defer = $.Deferred();
+            defer.resolve({users: [{name: 'Test', reference: '12345678'}, {name: 'Test 2', reference: '2-12345678'}],
+                           start: 1, size: 20});
+            return defer.promise();
+        });
+
+        user.identities().then(function(response) {
+            result = response;
+        });
+
+        expect(result.users.length).toEqual(2);
+        expect(result.users[0].name).toEqual('Test');
+        expect(result.start).toEqual(1);
+        expect(result.size).toEqual(20);
+    });
+
+    it('should list selected user identities', function() {
+        var result = null;
+
+        spyOn($, 'ajax').and.callFake(function (resource, params) {
+            var defer = $.Deferred();
+            defer.resolve({users: [{name: 'Test', reference: '12345678'}],
+                           start: 1, size: 20});
+            return defer.promise();
+        });
+
+        user.identities({active: false, pending: true, start: 1}).then(function(response) {
+            result = response;
+        });
+
+        expect(result.users.length).toEqual(1);
+        expect(result.users[0].name).toEqual('Test');
+        expect(result.start).toEqual(1);
+        expect(result.size).toEqual(20);
+    });
+
+    it('should set permissions', function() {
+        var result = null;
+
+        spyOn($, 'ajax').and.callFake(function (resource, params) {
+            var defer = $.Deferred();
+            defer.resolve({result: true});
+            return defer.promise();
+        });
+
+        user.setPermissions({permissions: {permission: 'update', group: 'sys:owner'}}).done(function(response) {
+            result = response;
+        });
+
+        expect(result).not.toBeNull();
+        expect(result.result).toBeTruthy();
+    });
+
+    it('should set multiple permissions', function() {
+        var result = null;
+
+        spyOn($, 'ajax').and.callFake(function (resource, params) {
+            var defer = $.Deferred();
+            defer.resolve({result: true});
+            return defer.promise();
+        });
+
+        user.setPermissions({permissions: [{permission: 'update', group: 'sys:owner'},
+                                           {permission: 'disable', group: 'sys:owner'}]}).done(function(response) {
+            result = response;
+        });
+
+        expect(result).not.toBeNull();
+        expect(result.result).toBeTruthy();
+    });
+
+    it('should set permissions revoke', function() {
+        var result = null;
+
+        spyOn($, 'ajax').and.callFake(function (resource, params) {
+            var defer = $.Deferred();
+            defer.resolve({result: true});
+            return defer.promise();
+        });
+
+        user.setPermissions({permissions: {permission: 'update', group: 'sys:owner', action: 'revoke'}}).done(function(response) {
+            result = response;
+        });
+
+        expect(result).not.toBeNull();
+        expect(result.result).toBeTruthy();
+    });
+
+    it('should fail to set permissions', function() {
+        var result = null;
+
+        spyOn($, 'ajax').and.callFake(function (resource, params) {
+            var defer = $.Deferred();
+            defer.resolve({result: false, messages: ['unknown_permission']});
+            return defer.promise();
+        });
+
+        user.setPermissions({permissions: {permission: 'whatever', group: 'sys:owner'}}).done(function(response) {
+            result = response;
+        });
+
+        expect(result).not.toBeNull();
+        expect(result.result).toBeFalsy();
+        expect(result.messages).toBeDefined();
+    });
+
+    it('should call ping', function() {
+        var result = null;
+
+        spyOn($, 'ajax').and.callFake(function (resource, params) {
+            var defer = $.Deferred();
+            defer.resolve({result: 1});
+            return defer.promise();
+        });
+
+        user.ping().done(function(response) {
+            result = response;
+        });
+
+        expect(result).not.toBeNull();
+        expect(result.result).toBeTruthy();
+    });
 });

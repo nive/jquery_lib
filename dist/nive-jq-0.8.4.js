@@ -137,6 +137,7 @@ nive.User = nive.User || {};
         this.signout = function (ajaxSettings) {
             return this._send('signout', {}, ajaxSettings);
         };
+
         this.identity = function (ajaxSettings) {
             return this._send('identity', {}, ajaxSettings);
         };
@@ -155,6 +156,31 @@ nive.User = nive.User || {};
             }
             return this._send('authenticated', values, ajaxSettings);
         };
+
+        // signup process handling
+        this.signupDirect = function (values, ajaxSettings) {
+            return this._send('signupDirect', values, ajaxSettings);
+        };
+        this.signupOptin = function (values, ajaxSettings) {
+            return this._send('signupOptin', values, ajaxSettings);
+        };
+        this.signupReview = function (values, ajaxSettings) {
+            return this._send('signupReview', values, ajaxSettings);
+        };
+        this.signupSendpw = function (values, ajaxSettings) {
+            return this._send('signupSendpw', values, ajaxSettings);
+        };
+        this.signupUid = function (values, ajaxSettings) {
+            return this._send('signupUid', values, ajaxSettings);
+        };
+
+        this.activate = function (values, ajaxSettings) {
+            if(typeof values == 'string' || values instanceof String) {
+                values = {token: values};
+            }
+            return this._send('activate', values, ajaxSettings);
+        };
+
         this.update = function (values, ajaxSettings) {
             return this._send('update', values, ajaxSettings);
         };
@@ -188,10 +214,14 @@ nive.User = nive.User || {};
         this.resetPassword2 = function (values, ajaxSettings) {
             return this._send('resetPassword2', values, ajaxSettings);
         };
+
         this.message = function (values, ajaxSettings) {
             return this._send('message', values, ajaxSettings);
         };
 
+        this.allowed = function (values, ajaxSettings) {
+            return this._send('allowed', values, ajaxSettings);
+        };
         this.disable = function (values, ajaxSettings) {
             return this._send('disable', values, ajaxSettings);
         };
@@ -199,35 +229,11 @@ nive.User = nive.User || {};
             return this._send('delete', values, ajaxSettings);
         };
 
-        // signup process handling
-        this.signupDirect = function (values, ajaxSettings) {
-            return this._send('signupDirect', values, ajaxSettings);
-        };
-        this.signupOptin = function (values, ajaxSettings) {
-            return this._send('signupOptin', values, ajaxSettings);
-        };
-        this.signupReview = function (values, ajaxSettings) {
-            return this._send('signupReview', values, ajaxSettings);
-        };
-        this.signupSendpw = function (values, ajaxSettings) {
-            return this._send('signupSendpw', values, ajaxSettings);
-        };
-        this.signupUid = function (values, ajaxSettings) {
-            return this._send('signupUid', values, ajaxSettings);
-        };
-
-        this.activate = function (values, ajaxSettings) {
-            if(typeof values == 'string' || values instanceof String) {
-                values = {token: values};
-            }
-            return this._send('activate', values, ajaxSettings);
-        };
-
+        // admin functions
         this.review = function (values, ajaxSettings) {
             return this._send('review', values, ajaxSettings);
         };
 
-        // admin functions
         this.getUser = function (values, ajaxSettings) {
             if(typeof values == 'string' || values instanceof String) {
                 values = {identity: values};
@@ -243,8 +249,23 @@ nive.User = nive.User || {};
             }
             return this._send('removeUser', values, ajaxSettings);
         };
+
         this.list = function (values, ajaxSettings) {
             return this._send('list', values, ajaxSettings);
+        };
+        this.identities = function (values, ajaxSettings) {
+            return this._send('identities', values, ajaxSettings);
+        };
+
+        this.getPermissions = function (values, ajaxSettings) {
+            return this._send('getPermissions', values, ajaxSettings);
+        };
+        this.setPermissions = function (values, ajaxSettings) {
+            return this._send('setPermissions', values, ajaxSettings);
+        };
+
+        this.ping = function (values, ajaxSettings) {
+            return this._send('ping', values, ajaxSettings);
         };
 
         this._send = function (method, values, ajaxSettings) {
@@ -338,9 +359,30 @@ nive.KvStore = nive.KvStore || {};
         this.list = function (values, ajaxSettings) {
             return this._send('list', values, ajaxSettings);
         };
-
         this.keys = function (values, ajaxSettings) {
             return this._send('keys', values, ajaxSettings);
+        };
+
+        this.allowed = function (values, ajaxSettings) {
+            return this._send('allowed', values, ajaxSettings);
+        };
+
+        this.getPermissions = function (values, ajaxSettings) {
+            return this._send('getPermissions', values, ajaxSettings);
+        };
+        this.setPermissions = function (values, ajaxSettings) {
+            return this._send('setPermissions', values, ajaxSettings);
+        };
+        this.getOwner= function (values, ajaxSettings) {
+            return this._send('getOwner', values, ajaxSettings);
+        };
+        this.setOwner= function (values, ajaxSettings) {
+            return this._send('setOwner', values, ajaxSettings);
+        };
+
+        this.ping = function (values, ajaxSettings) {
+            values = values||{};
+            return this._send('ping', values, ajaxSettings);
         };
 
         this._send = function (method, values, ajaxSettings) {
@@ -444,6 +486,7 @@ nive.FileStore = nive.FileStore || {};
             // values: {path, permission}
             return this._send('@allowed', values, ajaxSettings);
         };
+
         this.getPermissions = function (values, ajaxSettings) {
             // values: {path}
             if(typeof values == 'string' || values instanceof String) {
@@ -455,6 +498,7 @@ nive.FileStore = nive.FileStore || {};
             // values: {path, permissions}
             return this._send('@setPermissions', values, ajaxSettings);
         };
+
         this.getOwner = function (values, ajaxSettings) {
             // values: {path}
             if(typeof values == 'string' || values instanceof String) {
@@ -466,6 +510,7 @@ nive.FileStore = nive.FileStore || {};
             // values: {path, owner}
             return this._send('@setOwner', values, ajaxSettings);
         };
+
         this.ping = function (values, ajaxSettings) {
             // values:
             values = values||{};
