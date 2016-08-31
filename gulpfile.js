@@ -43,7 +43,7 @@ gulp.task('scripts', function() {
     gulp.src(['./src/nive.js',
               './src/endpoint.js',
               './src/useraccount.js',
-              './src/kvstore.js',
+              './src/datastore.js',
               './src/filestore.js'])
         .pipe(plugins.concat('nive-jq-' + pkg.version + '.js'))
         .pipe(plugins.header(banner, {

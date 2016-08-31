@@ -1,5 +1,5 @@
 'use strict';
-describe('jqKvStore', function() {
+describe('jqDataStore', function() {
 
     var RESOURCE = 'mocks',
         RESOURCE_KEY = 'key',
@@ -20,25 +20,25 @@ describe('jqKvStore', function() {
             }
         ];
 
-    var kvStore;
+    var dataStore;
 
     beforeEach(function() {
-        kvStore = new nive.KvStore({service: RESOURCE});
+        dataStore = new nive.DataStore({service: RESOURCE});
     });
 
     it('new instance', function() {
-        var instance = new nive.KvStore({service: RESOURCE});
+        var instance = new nive.DataStore({service: RESOURCE});
         expect(instance.options('service')).toEqual(RESOURCE);
 
-        instance = new nive.KvStore(RESOURCE);
+        instance = new nive.DataStore(RESOURCE);
         expect(instance.options('service')).toEqual(RESOURCE);
 
-        instance = new nive.KvStore({service: RESOURCE, token: '123456'});
+        instance = new nive.DataStore({service: RESOURCE, token: '123456'});
         expect(instance.options('token')).toEqual('123456');
     });
 
     it('should exist', function() {
-        expect(kvStore).toBeDefined();
+        expect(dataStore).toBeDefined();
     });
 
     it('should create a new item', function() {
@@ -51,7 +51,7 @@ describe('jqKvStore', function() {
             return defer.promise();
         });
 
-        kvStore.newItem({items: {key: RESOURCE_KEY, value: 'some text'}}).done(function(response) {
+        dataStore.newItem({items: {key: RESOURCE_KEY, value: 'some text'}}).done(function(response) {
             result = response;
         });
 
@@ -68,7 +68,7 @@ describe('jqKvStore', function() {
             return defer.promise();
         });
 
-        kvStore.newItem({items: [{key: RESOURCE_KEY+"4", value: 'some text'},
+        dataStore.newItem({items: [{key: RESOURCE_KEY+"4", value: 'some text'},
                                  {key: RESOURCE_KEY+"5", value: 12345}]}).done(function(response) {
             result = response;
         });
@@ -90,7 +90,7 @@ describe('jqKvStore', function() {
             return defer.promise();
         });
 
-        kvStore.newItem([{key: RESOURCE_KEY+"4", value: 'some text'},
+        dataStore.newItem([{key: RESOURCE_KEY+"4", value: 'some text'},
                          {key: RESOURCE_KEY+"5", value: 12345}]).done(function(response) {
             result = response;
         });
@@ -110,7 +110,7 @@ describe('jqKvStore', function() {
             return defer.promise();
         });
 
-        kvStore.getItem({key: RESOURCE_KEY+"1"}).done(function(response) {
+        dataStore.getItem({key: RESOURCE_KEY+"1"}).done(function(response) {
             result = response;
         });
 
@@ -130,7 +130,7 @@ describe('jqKvStore', function() {
             return defer.promise();
         });
 
-        kvStore.getItem(RESOURCE_KEY+"1").done(function(response) {
+        dataStore.getItem(RESOURCE_KEY+"1").done(function(response) {
             result = response;
         });
 
@@ -149,7 +149,7 @@ describe('jqKvStore', function() {
             return defer.promise();
         });
 
-        kvStore.setItem({items: {key: RESOURCE_KEY+"1", value: 'some text'}}).done(function(response) {
+        dataStore.setItem({items: {key: RESOURCE_KEY+"1", value: 'some text'}}).done(function(response) {
             result = response;
         });
 
@@ -167,7 +167,7 @@ describe('jqKvStore', function() {
             return defer.promise();
         });
 
-        kvStore.setItem({items: [{key: RESOURCE_KEY+"1", value: 'some text'},
+        dataStore.setItem({items: [{key: RESOURCE_KEY+"1", value: 'some text'},
                                  {key: RESOURCE_KEY+"2", value: 12345}]}).done(function(response) {
             result = response;
         });
@@ -189,7 +189,7 @@ describe('jqKvStore', function() {
             return defer.promise();
         });
 
-        kvStore.setItem([{key: RESOURCE_KEY+"1", value: 'some text'},
+        dataStore.setItem([{key: RESOURCE_KEY+"1", value: 'some text'},
                          {key: RESOURCE_KEY+"2", value: 12345}]).done(function(response) {
             result = response;
         });
@@ -210,7 +210,7 @@ describe('jqKvStore', function() {
             return defer.promise();
         });
 
-        kvStore.removeItem({key: RESOURCE_KEY+"1"}).done(function(response) {
+        dataStore.removeItem({key: RESOURCE_KEY+"1"}).done(function(response) {
             result = response;
         });
 
@@ -229,7 +229,7 @@ describe('jqKvStore', function() {
             return defer.promise();
         });
 
-        kvStore.removeItem(RESOURCE_KEY+"1").done(function(response) {
+        dataStore.removeItem(RESOURCE_KEY+"1").done(function(response) {
             result = response;
         });
 
@@ -248,7 +248,7 @@ describe('jqKvStore', function() {
             return defer.promise();
         });
 
-        kvStore.list().done(function(response) {
+        dataStore.list().done(function(response) {
             result = response;
         });
 
@@ -265,7 +265,7 @@ describe('jqKvStore', function() {
             return defer.promise();
         });
 
-        kvStore.keys().done(function(response) {
+        dataStore.keys().done(function(response) {
             result = response;
         });
 
@@ -283,7 +283,7 @@ describe('jqKvStore', function() {
             return defer.promise();
         });
 
-        kvStore.allowed({permission: 'removeItem'}).done(function(response) {
+        dataStore.allowed({permission: 'removeItem'}).done(function(response) {
             result = response;
         });
 
@@ -300,7 +300,7 @@ describe('jqKvStore', function() {
             return defer.promise();
         });
 
-        kvStore.allowed({permission: ['removeItem', 'update']}).done(function(response) {
+        dataStore.allowed({permission: ['removeItem', 'update']}).done(function(response) {
             result = response;
         });
 
@@ -318,7 +318,7 @@ describe('jqKvStore', function() {
             return defer.promise();
         });
 
-        kvStore.getPermissions({}).done(function(response) {
+        dataStore.getPermissions({}).done(function(response) {
             result = response;
         });
 
@@ -335,7 +335,7 @@ describe('jqKvStore', function() {
             return defer.promise();
         });
 
-        kvStore.setPermissions({permissions: {permission: 'newItem', group: 'sys:owner'}}).done(function(response) {
+        dataStore.setPermissions({permissions: {permission: 'newItem', group: 'sys:owner'}}).done(function(response) {
             result = response;
         });
 
@@ -352,7 +352,7 @@ describe('jqKvStore', function() {
             return defer.promise();
         });
 
-        kvStore.setPermissions({permissions: [{permission: 'newItem', group: 'sys:owner'},
+        dataStore.setPermissions({permissions: [{permission: 'newItem', group: 'sys:owner'},
                                               {permission: 'getItem', group: 'sys:owner'}]}).done(function(response) {
             result = response;
         });
@@ -370,7 +370,7 @@ describe('jqKvStore', function() {
             return defer.promise();
         });
 
-        kvStore.setPermissions({permissions: {permission: 'newItem', group: 'sys:owner', action: 'revoke'}}).done(function(response) {
+        dataStore.setPermissions({permissions: {permission: 'newItem', group: 'sys:owner', action: 'revoke'}}).done(function(response) {
             result = response;
         });
 
@@ -387,7 +387,7 @@ describe('jqKvStore', function() {
             return defer.promise();
         });
 
-        kvStore.setPermissions({permissions: {permission: 'whatever', group: 'sys:owner'}}).done(function(response) {
+        dataStore.setPermissions({permissions: {permission: 'whatever', group: 'sys:owner'}}).done(function(response) {
             result = response;
         });
 
@@ -405,7 +405,7 @@ describe('jqKvStore', function() {
             return defer.promise();
         });
 
-        kvStore.getOwner({key: RESOURCE_KEY}).done(function(response) {
+        dataStore.getOwner({key: RESOURCE_KEY}).done(function(response) {
             result = response;
         });
 
@@ -422,7 +422,7 @@ describe('jqKvStore', function() {
             return defer.promise();
         });
 
-        kvStore.setOwner({key: RESOURCE_KEY, owner: 'Test 1'}).done(function(response) {
+        dataStore.setOwner({key: RESOURCE_KEY, owner: 'Test 1'}).done(function(response) {
             result = response;
         });
 
@@ -439,7 +439,7 @@ describe('jqKvStore', function() {
             return defer.promise();
         });
 
-        kvStore.setOwner({key: RESOURCE_KEY, owner: 'whatever'}).done(function(response) {
+        dataStore.setOwner({key: RESOURCE_KEY, owner: 'whatever'}).done(function(response) {
             result = response;
         });
 
@@ -457,7 +457,7 @@ describe('jqKvStore', function() {
             return defer.promise();
         });
 
-        kvStore.ping().done(function(response) {
+        dataStore.ping().done(function(response) {
             result = response;
         });
 

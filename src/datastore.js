@@ -1,8 +1,8 @@
 // (c) 2013-2015 Nive GmbH - nive.io
 // This file is released under the MIT-License. See http://jquery.org/license
 //
-// Nive KeyValueStore jQuery wrapper: jq-kvstore.js
-// Docs: http://www.nive.co/docs/webapi/kvstore.html#api
+// Nive KeyValueStore jQuery wrapper: jq-datastore.js
+// Docs: http://www.nive.co/docs/webapi/datastore.html#api
 //
 // Requires
 // - jQuery >= 1.8
@@ -10,11 +10,11 @@
 
 
 window.nive = window.nive || {};
-nive.KvStore = nive.KvStore || {};
+nive.DataStore = nive.DataStore || {};
 (function () {
 'use strict';
 
-    nive.KvStore = function (options) {
+    nive.DataStore = function (options) {
         this.__options = options||{};
         if(typeof options == 'string' || options instanceof String) {
             this.__options = { service: options };

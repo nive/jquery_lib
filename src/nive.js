@@ -1,0 +1,2 @@
+
+window.nive = window.nive || {};
