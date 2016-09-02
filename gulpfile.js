@@ -39,7 +39,7 @@ gulp.task('lint', function() {
     .pipe(plugins.eslint.format());
 });
 
-gulp.task('scripts', function() {
+gulp.task('dist', function() {
     gulp.src(['./src/nive.js',
               './src/endpoint.js',
               './src/useraccount.js',
@@ -84,8 +84,8 @@ gulp.task('test', function() {
     });
 });
 
-gulp.task('watch', ['lint', 'scripts'], function () {
-    gulp.watch(['src/**/*.js'], ['lint', 'clean', 'scripts']);
+gulp.task('watch', ['lint', 'dist'], function () {
+    gulp.watch(['src/**/*.js'], ['lint', 'clean', 'dist']);
 });
 
 gulp.task('default', ['clean'], function() {
