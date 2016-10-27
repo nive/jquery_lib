@@ -1,8 +1,8 @@
 // (c) 2013-2015 Nive GmbH - nive.io
 // This file is released under the MIT-License. See http://jquery.org/license
 //
-// Nive UserAccountService jQuery wrapper: jq-useraccount.js
-// Docs: http://www.nive.co/docs/webapi/useraccount.html#api
+// Nive UserAccountService jQuery wrapper: jq-userstore.js
+// Docs: http://www.nive.co/docs/webapi/userstore.html#api
 //
 // Requires
 // - jQuery >= 1.8

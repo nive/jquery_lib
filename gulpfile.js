@@ -42,7 +42,7 @@ gulp.task('lint', function() {
 gulp.task('dist', function() {
     gulp.src(['./src/nive.js',
               './src/endpoint.js',
-              './src/useraccount.js',
+              './src/userstore.js',
               './src/datastore.js',
               './src/filestore.js'])
         .pipe(plugins.concat('nive-jq-' + pkg.version + '.js'))
